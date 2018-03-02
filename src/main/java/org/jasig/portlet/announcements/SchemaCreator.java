@@ -31,9 +31,7 @@ import org.jasig.portlet.announcements.spring.PortletApplicationContextLocator;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
-import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
-//import org.springframework.orm.hibernate5.LocalSessionFactoryBuilder;
-//import org.springframework.orm.hibernate3.LocalSessionFactoryBean;
+import org.springframework.orm.hibernate3.LocalSessionFactoryBean;
 
 /**
  * This tool is responsible for creating the Announcements portlet database schema (and dropping
@@ -59,8 +57,9 @@ public class SchemaCreator implements ApplicationContextAware {
     public static void main(String[] args) {
 
         // There will be an instance of this class in the ApplicationContent
-        ApplicationContext context = PortletApplicationContextLocator
-                .getApplicationContext(PortletApplicationContextLocator.DATABASE_CONTEXT_LOCATION);
+        ApplicationContext context =
+                PortletApplicationContextLocator.getApplicationContext(
+                        PortletApplicationContextLocator.DATABASE_CONTEXT_LOCATION);
         final SchemaCreator schemaCreator = context.getBean("schemaCreator", SchemaCreator.class);
         System.exit(schemaCreator.create());
     }
@@ -77,17 +76,14 @@ public class SchemaCreator implements ApplicationContextAware {
          * managed by the Spring ApplicationContext.
          */
 
-        final LocalSessionFactoryBean sessionFactoryBean = applicationContext.getBean(SESSION_FACTORY_BEAN_NAME,
-                LocalSessionFactoryBean.class);
+        final LocalSessionFactoryBean sessionFactoryBean = applicationContext
+                .getBean(SESSION_FACTORY_BEAN_NAME, LocalSessionFactoryBean.class);
         final DataSource dataSource = applicationContext.getBean(DATA_SOURCE_BEAN_NAME, DataSource.class);
 
         try (final Connection conn = dataSource.getConnection()) {
             final Configuration cfg = sessionFactoryBean.getConfiguration();
-            // updating to latest version of hibernate
-            // final SchemaExport schemaExport = new SchemaExport(cfg, conn);
-            final SchemaExport schemaExport = new SchemaExport();
-            // Removed testing code
-            //schemaExport.execute(true, true, false, false);
+            final SchemaExport schemaExport = new SchemaExport(cfg, conn);
+            schemaExport.execute(true, true, false, false);
 
             final List<Exception> exceptions = schemaExport.getExceptions();
             if (exceptions.size() != 0) {
