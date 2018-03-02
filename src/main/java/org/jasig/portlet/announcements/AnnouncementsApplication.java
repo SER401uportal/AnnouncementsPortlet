@@ -12,4 +12,3 @@ public class AnnouncementsApplication {
 		SpringApplication.run(AnnouncementsApplication.class, args);
 	}
 }
- 

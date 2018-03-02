@@ -59,9 +59,8 @@ public class SchemaCreator implements ApplicationContextAware {
     public static void main(String[] args) {
 
         // There will be an instance of this class in the ApplicationContent
-        ApplicationContext context =
-                PortletApplicationContextLocator.getApplicationContext(
-                        PortletApplicationContextLocator.DATABASE_CONTEXT_LOCATION);
+        ApplicationContext context = PortletApplicationContextLocator
+                .getApplicationContext(PortletApplicationContextLocator.DATABASE_CONTEXT_LOCATION);
         final SchemaCreator schemaCreator = context.getBean("schemaCreator", SchemaCreator.class);
         System.exit(schemaCreator.create());
     }
@@ -78,8 +77,8 @@ public class SchemaCreator implements ApplicationContextAware {
          * managed by the Spring ApplicationContext.
          */
 
-        final LocalSessionFactoryBean sessionFactoryBean = applicationContext
-                .getBean(SESSION_FACTORY_BEAN_NAME, LocalSessionFactoryBean.class);
+        final LocalSessionFactoryBean sessionFactoryBean = applicationContext.getBean(SESSION_FACTORY_BEAN_NAME,
+                LocalSessionFactoryBean.class);
         final DataSource dataSource = applicationContext.getBean(DATA_SOURCE_BEAN_NAME, DataSource.class);
 
         try (final Connection conn = dataSource.getConnection()) {

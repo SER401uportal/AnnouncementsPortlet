@@ -34,8 +34,7 @@
     <context-param>
         <param-name>contextConfigLocation</param-name>
         <param-value>
-            classpath:/context/applicationContext.xml,
-            classpath:/context/databaseContext.xml
+            classpath:/context/applicationContext.xml, classpath:/context/databaseContext.xml
         </param-value>
     </context-param>
 

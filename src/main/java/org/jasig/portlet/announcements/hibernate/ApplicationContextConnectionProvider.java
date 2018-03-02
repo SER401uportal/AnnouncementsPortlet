@@ -90,13 +90,11 @@ public abstract class ApplicationContextConnectionProvider {
     }
 
     try {
-      context =
-          PortletApplicationContextLocator.getApplicationContext(
-              PortletApplicationContextLocator.DATABASE_CONTEXT_LOCATION);
+      context = PortletApplicationContextLocator
+          .getApplicationContext(PortletApplicationContextLocator.DATABASE_CONTEXT_LOCATION);
     } catch (Exception e) {
       logger.error(
-          "Unable to load the application context from "
-              + PortletApplicationContextLocator.DATABASE_CONTEXT_LOCATION,
+          "Unable to load the application context from " + PortletApplicationContextLocator.DATABASE_CONTEXT_LOCATION,
           e);
     }
   }

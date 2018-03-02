@@ -1,21 +1,6 @@
 buildscript {
 	ext {
 		springBootVersion = '1.5.10.RELEASE'
-		// Library dependencies
-		//hibernateCore = '3.6.10.Final'
-		hibernateCore = '5.2.8.Final'
-		//hibernateTools = '3.6.0.Final'
-		hibernateTools = '5.2.8.Final'
-        resourceServerVersion = '1.0.42'
-        //springVersion = '4.1.4.RELEASE'
-		springVersion = '4.3.1.RELEASE'
-        junitVersion = '4.12'
-        servletApiVersion = '3.0.1'
-
-        // The JDBC Driver used by the portlet -->
-        jdbcGroupId = 'org.hsqldb'
-        jdbcArtifactId = 'hsqldb'
-        jdbcVersion = '2.2.9'
 	}
 	repositories {
 		mavenCentral()
@@ -35,6 +20,7 @@ apply plugin: 'war'
 // Updated to fix a '/n' error.
 description = "Announcements Portlet with Gradle.  Originally done by Erik Olsson, updated by ASU Capstone Team: David Worrell, Ruan Botha, Justin Danweber, Craig Smith, Hannah Do"
 
+
 group = 'org.jasig.portlet'
 version = '3.0.0-SNAPSHOT'
 sourceCompatibility = 1.8
@@ -49,45 +35,48 @@ configurations {
 }
 
 dependencies {
-	compile group: 'backport-util-concurrent', name: 'backport-util-concurrent', version:'3.1' 
-	compile group: 'com.rometools', name: 'rome', version:'1.5.0' 
-	compile group: 'commons-collections', name: 'commons-collections', version:'3.2.2' 
-    compile group: 'commons-dbcp', name: 'commons-dbcp', version:'1.4' 
-	compile group: 'commons-lang', name: 'commons-lang', version: '2.6' 
-	compile group: 'org.javassist', name: 'javassist', version: '3.22.0-GA'
-	compile group: 'javax.servlet', name: 'jstl', version:'1.1.2' 
-	compile group: 'javax.servlet', name: 'javax.servlet-api', version: '4.0.0'
-    compile group: 'javax.portlet', name: 'portlet-api', version:'2.0' 
-	compile group: 'javax.xml.bind', name: 'jaxb-api', version:'2.1' 
-	compile group: 'javax.xml.bind', name: 'jaxb-api', version: '2.3.0'
-	compile group: 'jdom', name: 'jdom', version:'1.0' 
-	compile group: 'log4j', name: 'log4j', version:'1.2.14'
-	compile('org.apache.httpcomponents:httpclient:4.5.2')
-	compile "org.hibernate:hibernate-tools:${hibernateTools}"
-	compile "org.hibernate:hibernate-core:${hibernateCore}"
-	compile group: 'org.hsqldb', name: 'hsqldb', version:'2.2.9' 
-	compile group: 'org.jasig.portlet.notification', name: 'notification-portlet-api', version:'2.0.0' 
-	compile group: 'org.jasypt', name: 'jasypt-spring31', version:"1.9.2" 
-	compile group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.7.10'
-	compile "org.springframework:spring-beans:${springVersion}"
-	compile "org.springframework:spring-core:${springVersion}"
-	compile "org.springframework:spring-orm:${springVersion}"
-	compile "org.springframework:spring-web:${springVersion}"
-	compile "org.springframework:spring-webmvc:${springVersion}"
-	compile "org.springframework:spring-webmvc-portlet:${springVersion}"
-	compile "org.springframework:spring-test:${springVersion}"
-	compile "org.springframework:spring-context-support:${springVersion}"
-	compile group: 'net.sf.ehcache', name: 'ehcache', version:'2.8.5' 
-	compile group: 'taglibs', name: 'standard', version:'1.1.2' 
-
-	compile "com.sun.xml.bind:jaxb-impl:2.1.9"
+	compile "commons-collections:commons-collections:3.2.2"
+	compile "javax.xml.bind:jaxb-api:2.1"
+	compile "javax.servlet:jstl:1.1.2"
+	compile "taglibs:standard:1.1.2"
+	compile "org.jasig.portlet.notification:notification-portlet-api:2.0.0"
+	compile "org.jasypt:jasypt-spring31:1.9.2"
+	compile "org.springframework:spring-beans:4.3.1.RELEASE"
+	compile "org.springframework:spring-core:4.3.1.RELEASE"
+	compile "org.springframework:spring-orm:4.3.1.RELEASE"
+	compile "org.springframework:spring-web:4.3.1.RELEASE"
+	compile "org.springframework:spring-webmvc:4.3.1.RELEASE"
+	compile "org.springframework:spring-webmvc-portlet:4.3.1.RELEASE"
+	compile "org.springframework:spring-test:4.3.1.RELEASE"
+	compile "org.springframework:spring-context-support:4.3.1.RELEASE"
+	compile "org.hibernate:hibernate-core:3.6.10.Final"
+	compile "org.hibernate:hibernate-tools:3.6.0.Final"
+	compile group: 'org.hibernate', name: 'hibernate-tools', version:'5.2.8.Final'
+	compile group: 'org.hibernate', name: 'hibernate-core', version:'5.2.13.Final'
+	compile "javassist:javassist:3.12.1.GA"
+	compile "net.sf.ehcache:ehcache:2.8.5"
+	compile "backport-util-concurrent:backport-util-concurrent:3.1"
+	compile "log4j:log4j:1.2.14"
+	compile "org.slf4j:slf4j-log4j12:1.7.10"
+	compile "commons-dbcp:commons-dbcp:1.4"
+	compile "org.hsqldb:hsqldb:2.2.9"
+	compile "com.rometools:rome:1.5.0"
+	compile "jdom:jdom:1.0"
+	compile "org.jasig.portal:uPortal-spring:5.0.0-M4"
+	compile "javax.servlet:javax.servlet-api:3.0.1"
+	compile "javax.portlet:portlet-api:2.0"
+	testCompile "junit:junit:4.12"
+	compile "org.jasig.resourceserver:resource-server-content:1.0.42"
+	compile "org.jasig.resourceserver:resource-server-utils:1.0.42"
+	compile "org.apache.maven.scm:maven-scm-provider-gitexe:1.9"
+	compile "javax.servlet:javax.servlet-api:3.0.1"
+	compile "javax.portlet:portlet-api:2.0"
+	compile "rhino:js:1.7R1"
 	compile('org.jasig.portal:uPortal-soffit-renderer:5.0.5') 
 	compile('org.springframework.boot:spring-boot-starter-cache') 
 	compile('org.springframework.boot:spring-boot-starter-web') 
-
 	providedRuntime('org.apache.tomcat.embed:tomcat-embed-jasper') 
 	providedRuntime('org.springframework.boot:spring-boot-starter-tomcat') 
-
 	testCompile('org.springframework.boot:spring-boot-starter-test') 
 }
 

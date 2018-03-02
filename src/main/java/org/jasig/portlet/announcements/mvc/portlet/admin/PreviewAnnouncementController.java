@@ -34,22 +34,21 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class PreviewAnnouncementController {
 
-  @Autowired
-  private IAnnouncementService announcementService = null;
+  @Autowired private IAnnouncementService announcementService = null;
 
   @Autowired(required = true)
   private final IViewNameSelector viewNameSelector = null;
 
-  @Autowired
-  private final UserPermissionCheckerFactory userPermissionCheckerFactory = null;
+  @Autowired private final UserPermissionCheckerFactory userPermissionCheckerFactory = null;
 
   @RequestMapping(value = "VIEW", params = "action=previewAnnouncement")
-  protected String previewAnnouncement(Model model, RenderRequest request, @RequestParam("annId") String annId)
-      throws Exception {
+  protected String previewAnnouncement(
+      Model model, RenderRequest request, @RequestParam("annId") String annId) throws Exception {
 
     Announcement ann = announcementService.getAnnouncement(Long.parseLong(annId));
     Topic topic = ann.getParent();
-    UserPermissionChecker upChecker = userPermissionCheckerFactory.createUserPermissionChecker(request, topic);
+    UserPermissionChecker upChecker =
+        userPermissionCheckerFactory.createUserPermissionChecker(request, topic);
     upChecker.validateCanEditTopic();
 
     model.addAttribute("announcement", ann);
