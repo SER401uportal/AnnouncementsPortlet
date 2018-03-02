@@ -66,7 +66,7 @@ import org.springframework.web.portlet.bind.annotation.RenderMapping;
 /** @author eolsson */
 @Controller
 @RequestMapping("VIEW")
-public class AnnouncementsViewController {
+public class AnnouncementsViewController implements InitializingBean {
 
   public static final String ACTION_DISPLAY_FULL_ANNOUNCEMENT = "displayFullAnnouncement";
 
@@ -114,6 +114,7 @@ public class AnnouncementsViewController {
 
   @Autowired private UserIdService userIdService;
 
+  private Cache guestAnnouncementCache = null;
   private final Logger logger = Logger.getLogger(getClass());
 
   /**
@@ -147,29 +148,48 @@ public class AnnouncementsViewController {
 
     final String userId = userIdService.getUserId(request);
 
-    // create a new announcement list
-    announcements = new ArrayList<>();
-    emergencyAnnouncements = new ArrayList<>();
+    Element guestCacheElement = guestAnnouncementCache.get(userId);
+    Element emergCacheElement = guestAnnouncementCache.get("emergency");
 
-    // fetch the user's topic subscription from the database
-    List<TopicSubscription> myTopics = tss.getTopicSubscription(request);
+    final Boolean isGuest = (Boolean) model.asMap().get("isGuest");
+    if (!isGuest || (guestCacheElement == null || emergCacheElement == null)) {
 
-    // add all the published announcements of each subscribed topic to the announcement list
-    // to emergency announcements into their own list
-    for (TopicSubscription ts : myTopics) {
-      if (ts.getSubscribed() && ts.getTopic().getSubscriptionMethod() != Topic.EMERGENCY) {
-        announcements.addAll(ts.getTopic().getPublishedAnnouncements());
-      } else if (ts.getSubscribed() && ts.getTopic().getSubscriptionMethod() == Topic.EMERGENCY) {
-        emergencyAnnouncements.addAll(ts.getTopic().getPublishedAnnouncements());
+      // create a new announcement list
+      announcements = new ArrayList<>();
+      emergencyAnnouncements = new ArrayList<>();
+
+      // fetch the user's topic subscription from the database
+      List<TopicSubscription> myTopics = tss.getTopicSubscription(request);
+
+      // add all the published announcements of each subscribed topic to the announcement list
+      // to emergency announcements into their own list
+      for (TopicSubscription ts : myTopics) {
+        if (ts.getSubscribed() && ts.getTopic().getSubscriptionMethod() != Topic.EMERGENCY) {
+          announcements.addAll(ts.getTopic().getPublishedAnnouncements());
+        } else if (ts.getSubscribed() && ts.getTopic().getSubscriptionMethod() == Topic.EMERGENCY) {
+          emergencyAnnouncements.addAll(ts.getTopic().getPublishedAnnouncements());
+        }
       }
-    }
 
-    // sort the list (since they are not sorted from the database)
-    Comparator<Announcement> sortStrategy =
-        AnnouncementSortStrategy.getStrategy(
-            prefs.getValue(PREFERENCE_SORT_STRATEGY, DEFAULT_SORT_STRATEGY));
-    Collections.sort(announcements, sortStrategy);
-    Collections.sort(emergencyAnnouncements, sortStrategy);
+      // sort the list (since they are not sorted from the database)
+      Comparator<Announcement> sortStrategy =
+          AnnouncementSortStrategy.getStrategy(
+              prefs.getValue(PREFERENCE_SORT_STRATEGY, DEFAULT_SORT_STRATEGY));
+      Collections.sort(announcements, sortStrategy);
+      Collections.sort(emergencyAnnouncements, sortStrategy);
+
+      if (isGuest) {
+        if (logger.isDebugEnabled()) logger.debug("Guest cache expired. Regenerating guest cache.");
+
+        guestAnnouncementCache.put(new Element(userId, announcements));
+        guestAnnouncementCache.put(new Element("emergency", emergencyAnnouncements));
+      }
+    } else {
+      // we're a guest and we're within the cache timeout period, so return the cached announcements
+      if (logger.isDebugEnabled()) logger.debug("Guest cache valid. Using guest cache.");
+      announcements = (List<Announcement>) guestCacheElement.getObjectValue();
+      emergencyAnnouncements = (List<Announcement>) emergCacheElement.getObjectValue();
+    }
 
     // create a shortened list
     final Boolean useScrollingDisplay = (Boolean) model.asMap().get("useScrollingDisplay");
@@ -317,6 +337,16 @@ public class AnnouncementsViewController {
 
   public void setTss(ITopicSubscriptionService tss) {
     this.tss = tss;
+  }
+
+  @Override
+  public void afterPropertiesSet() throws Exception {
+    guestAnnouncementCache = cm.getCacheManager().getCache("guestAnnouncementCache");
+    if (guestAnnouncementCache == null) {
+      throw new BeanCreationException("Required guestAnnouncementCache could not be loaded.");
+    } else {
+      logger.debug("guestAnnouncementCache created.");
+    }
   }
 
   public void setCm(EhCacheCacheManager cm) {

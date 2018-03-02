@@ -24,7 +24,8 @@ import java.util.Properties;
 import javax.sql.DataSource;
 import org.apache.log4j.Logger;
 import org.hibernate.HibernateException;
-import org.hibernate.connection.ConnectionProvider;
+//import org.hibernate.connection.ConnectionProvider;
+import org.hibernate.engine.jdbc.connections.spi.ConnectionProvider;
 import org.jasig.portlet.announcements.spring.PortletApplicationContextLocator;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -36,7 +37,7 @@ import org.springframework.context.ConfigurableApplicationContext;
  *
  * @author drewwills
  */
-public class ApplicationContextConnectionProvider implements ConnectionProvider {
+public abstract class ApplicationContextConnectionProvider {
 
   private static final String DATA_SOURCE_BEAN_NAME = "dataSource";
 
@@ -44,19 +45,16 @@ public class ApplicationContextConnectionProvider implements ConnectionProvider 
 
   private final Logger logger = Logger.getLogger(getClass());
 
-  @Override
   public void close() throws HibernateException {
     if (context != null) {
       ((ConfigurableApplicationContext) context).close();
     }
   }
 
-  @Override
   public void closeConnection(Connection conn) throws SQLException {
     conn.close();
   }
 
-  @Override
   public void configure(Properties props) throws HibernateException {
     /*
      * Configuration is handled by the ApplicationContext itself;  there is
@@ -64,7 +62,6 @@ public class ApplicationContextConnectionProvider implements ConnectionProvider 
      */
   }
 
-  @Override
   public Connection getConnection() throws SQLException {
 
     if (context == null) {
@@ -77,7 +74,6 @@ public class ApplicationContextConnectionProvider implements ConnectionProvider 
     return rslt;
   }
 
-  @Override
   public boolean supportsAggressiveRelease() {
     return false; // WTF?
   }

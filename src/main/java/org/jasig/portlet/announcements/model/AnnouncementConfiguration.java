@@ -18,7 +18,7 @@
  */
 package org.jasig.portlet.announcements.model;
 
-import java.util.Arrays;
+import edu.emory.mathcs.backport.java.util.Arrays;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;

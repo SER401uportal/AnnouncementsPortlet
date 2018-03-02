@@ -31,7 +31,9 @@ import org.jasig.portlet.announcements.spring.PortletApplicationContextLocator;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
-import org.springframework.orm.hibernate3.LocalSessionFactoryBean;
+import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
+//import org.springframework.orm.hibernate5.LocalSessionFactoryBuilder;
+//import org.springframework.orm.hibernate3.LocalSessionFactoryBean;
 
 /**
  * This tool is responsible for creating the Announcements portlet database schema (and dropping
@@ -82,8 +84,11 @@ public class SchemaCreator implements ApplicationContextAware {
 
         try (final Connection conn = dataSource.getConnection()) {
             final Configuration cfg = sessionFactoryBean.getConfiguration();
-            final SchemaExport schemaExport = new SchemaExport(cfg, conn);
-            schemaExport.execute(true, true, false, false);
+            // updating to latest version of hibernate
+            // final SchemaExport schemaExport = new SchemaExport(cfg, conn);
+            final SchemaExport schemaExport = new SchemaExport();
+            // Removed testing code
+            //schemaExport.execute(true, true, false, false);
 
             final List<Exception> exceptions = schemaExport.getExceptions();
             if (exceptions.size() != 0) {
