@@ -51,8 +51,6 @@ dependencies {
 	compile "org.springframework:spring-context-support:4.3.1.RELEASE"
 	compile "org.hibernate:hibernate-core:3.6.10.Final"
 	compile "org.hibernate:hibernate-tools:3.6.0.Final"
-	compile group: 'org.hibernate', name: 'hibernate-tools', version:'5.2.8.Final'
-	compile group: 'org.hibernate', name: 'hibernate-core', version:'5.2.13.Final'
 	compile "javassist:javassist:3.12.1.GA"
 	compile "net.sf.ehcache:ehcache:2.8.5"
 	compile "backport-util-concurrent:backport-util-concurrent:3.1"
@@ -63,21 +61,23 @@ dependencies {
 	compile "com.rometools:rome:1.5.0"
 	compile "jdom:jdom:1.0"
 	compile "org.jasig.portal:uPortal-spring:5.0.0-M4"
-	compile "javax.servlet:javax.servlet-api:3.0.1"
-	compile "javax.portlet:portlet-api:2.0"
 	testCompile "junit:junit:4.12"
 	compile "org.jasig.resourceserver:resource-server-content:1.0.42"
 	compile "org.jasig.resourceserver:resource-server-utils:1.0.42"
 	compile "org.apache.maven.scm:maven-scm-provider-gitexe:1.9"
-	compile "javax.servlet:javax.servlet-api:3.0.1"
-	compile "javax.portlet:portlet-api:2.0"
 	compile "rhino:js:1.7R1"
 	compile('org.jasig.portal:uPortal-soffit-renderer:5.0.5') 
 	compile('org.springframework.boot:spring-boot-starter-cache') 
 	compile('org.springframework.boot:spring-boot-starter-web') 
-	providedRuntime('org.apache.tomcat.embed:tomcat-embed-jasper') 
-	providedRuntime('org.springframework.boot:spring-boot-starter-tomcat') 
-	testCompile('org.springframework.boot:spring-boot-starter-test') 
+	testCompile('org.springframework.boot:spring-boot-starter-test')
+
+	compileOnly "javax.portlet:portlet-api:2.0"
+	compileOnly "javax.servlet:javax.servlet-api:3.0.1"
+
+	providedRuntime('org.apache.tomcat.embed:tomcat-embed-jasper')
+	providedRuntime('org.springframework.boot:spring-boot-starter-tomcat')
+	providedRuntime "javax.portlet:portlet-api:2.0"
+
 }
 
 configurations.all {
