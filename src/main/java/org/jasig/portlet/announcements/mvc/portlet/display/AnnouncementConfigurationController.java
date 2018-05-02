@@ -18,12 +18,7 @@
  */
 package org.jasig.portlet.announcements.mvc.portlet.display;
 
-import javax.portlet.ActionRequest;
-import javax.portlet.ActionResponse;
-import javax.portlet.PortletMode;
-import javax.portlet.PortletModeException;
-import javax.portlet.PortletRequest;
-import org.apache.commons.lang.StringUtils;
+import com.google.common.base.Strings;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jasig.portlet.announcements.model.AnnouncementConfiguration;
@@ -33,6 +28,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import javax.portlet.*;
 
 /** @author Chris Waymire (chris@waymire.net) */
 @Controller
@@ -60,7 +57,7 @@ public class AnnouncementConfigurationController {
       @RequestParam(value = "save", required = false) String save)
       throws PortletModeException {
 
-    if (StringUtils.isNotBlank(save)) {
+    if (!Strings.isNullOrEmpty(save)) {
       log.debug("Saving announcement configuration: {" + config.toString() + "}");
       configService.saveConfiguration(request, config);
     }

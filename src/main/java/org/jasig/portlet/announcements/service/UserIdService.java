@@ -18,17 +18,18 @@
  */
 package org.jasig.portlet.announcements.service;
 
+import org.jasig.portlet.announcements.model.Role;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.util.DigestUtils;
+
+import javax.annotation.PostConstruct;
+import javax.portlet.PortletRequest;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import javax.annotation.PostConstruct;
-import javax.portlet.PortletRequest;
-import org.apache.commons.codec.digest.DigestUtils;
-import org.jasig.portlet.announcements.model.Role;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 /**
  * This Spring-managed bean is responsible for extracting the userId from the PortletRequest.
@@ -101,7 +102,7 @@ public class UserIdService {
     // Width on the userId column is 50 characters, so we need it to be
     // short.  MD5 produces a sequence of characters that is always 32 long.
     final byte[] digest = md5.digest(rolesString.toString().getBytes());
-    final String hex = DigestUtils.md2Hex(digest);
+    final String hex = DigestUtils.md5DigestAsHex(digest);
 
     return GUEST_USER_ID_PREFIX + hex;
   }

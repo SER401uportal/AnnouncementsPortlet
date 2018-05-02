@@ -18,28 +18,24 @@
  */
 package org.jasig.portlet.announcements.mvc.portlet.display;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import javax.portlet.ActionRequest;
-import javax.portlet.ActionResponse;
-import javax.portlet.PortletException;
-import javax.portlet.PortletMode;
-import javax.portlet.PortletPreferences;
-import javax.portlet.PortletRequest;
-import javax.portlet.RenderRequest;
-import org.apache.log4j.Logger;
 import org.jasig.portlet.announcements.model.Topic;
 import org.jasig.portlet.announcements.model.TopicSubscription;
 import org.jasig.portlet.announcements.mvc.IViewNameSelector;
 import org.jasig.portlet.announcements.service.IAnnouncementService;
 import org.jasig.portlet.announcements.service.ITopicSubscriptionService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import javax.portlet.*;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /** @author eolsson */
 @Controller
@@ -55,7 +51,7 @@ public class AnnouncementsPreferencesController {
 
   public static final String PREFERENCE_HIDE_ABSTRACT = "AnnouncementsViewController.hideAbstract";
 
-  private final Logger logger = Logger.getLogger(getClass());
+  private final Logger logger = LoggerFactory.getLogger(getClass());
 
   public void setTss(ITopicSubscriptionService tss) {
     this.tss = tss;

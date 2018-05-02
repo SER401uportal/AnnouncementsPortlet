@@ -18,30 +18,12 @@
  */
 package org.jasig.portlet.announcements.mvc.servlet;
 
-import com.rometools.rome.feed.synd.SyndContent;
-import com.rometools.rome.feed.synd.SyndContentImpl;
-import com.rometools.rome.feed.synd.SyndEnclosure;
-import com.rometools.rome.feed.synd.SyndEnclosureImpl;
-import com.rometools.rome.feed.synd.SyndEntry;
-import com.rometools.rome.feed.synd.SyndEntryImpl;
-import com.rometools.rome.feed.synd.SyndFeed;
-import com.rometools.rome.feed.synd.SyndFeedImpl;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.rometools.rome.feed.synd.*;
 import com.rometools.rome.io.FeedException;
 import com.rometools.rome.io.SyndFeedOutput;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
-
-import javax.portlet.PortletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.lang.StringUtils;
-import org.codehaus.jackson.JsonNode;
-import org.codehaus.jackson.map.ObjectMapper;
 import org.jasig.portlet.announcements.model.Announcement;
 import org.jasig.portlet.announcements.model.Topic;
 import org.jasig.portlet.announcements.mvc.portlet.display.AnnouncementsViewController;
@@ -55,10 +37,20 @@ import org.springframework.web.bind.ServletRequestBindingException;
 import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.portlet.PortletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
+
 /**
  * Provides the current content of a topic in RSS format, if the topic permits it.
  */
 @Controller("rssFeedController")
+@RequestMapping("getRssFeed")
 public class RssFeedController {
 
     private static final String CONTENT_TYPE = "application/rss+xml";
@@ -226,7 +218,7 @@ public class RssFeedController {
                 for (String attachment : attachments) {
                     final JsonNode json = objectMapper.readTree(attachment);
                     final SyndEnclosure se = new SyndEnclosureImpl();
-                    final String enclosureUrl = urlPrefix + json.get(PATH_ATTRIBUTE).getTextValue();
+                    final String enclosureUrl = urlPrefix + json.get(PATH_ATTRIBUTE).textValue();
                     se.setUrl(enclosureUrl);
                     enclosures.add(se);
                 }

@@ -53,6 +53,6 @@
         </property>
     </bean>
 
-    <bean id="exceptionHandler" parent="defaultExceptionHandlerTemplate"/>
+    <!-- <bean id="exceptionHandler" parent="defaultExceptionHandlerTemplate"/> -->
 
 </beans>

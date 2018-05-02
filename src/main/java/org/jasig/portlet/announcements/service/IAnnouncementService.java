@@ -18,12 +18,13 @@
  */
 package org.jasig.portlet.announcements.service;
 
-import java.util.List;
-import javax.portlet.PortletException;
-import javax.portlet.PortletRequest;
 import org.jasig.portlet.announcements.model.Announcement;
 import org.jasig.portlet.announcements.model.Topic;
 import org.jasig.portlet.announcements.model.TopicSubscription;
+
+import javax.portlet.PortletException;
+import javax.portlet.PortletRequest;
+import java.util.List;
 
 /**
  * @author Erik A. Olsson (eolsson@uci.edu)

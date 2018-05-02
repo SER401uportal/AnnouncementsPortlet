@@ -18,42 +18,15 @@
  */
 package org.jasig.portlet.announcements.mvc.portlet.display;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Set;
-import javax.portlet.EventRequest;
-import javax.portlet.EventResponse;
-import javax.portlet.PortletException;
-import javax.portlet.PortletPreferences;
-import javax.portlet.PortletRequest;
-import javax.portlet.RenderRequest;
-import javax.xml.namespace.QName;
-import net.sf.ehcache.Cache;
-import net.sf.ehcache.Element;
-import org.apache.log4j.Logger;
 import org.jasig.portlet.announcements.UnauthorizedException;
-import org.jasig.portlet.announcements.model.Announcement;
-import org.jasig.portlet.announcements.model.AnnouncementSortStrategy;
-import org.jasig.portlet.announcements.model.Topic;
-import org.jasig.portlet.announcements.model.TopicSubscription;
-import org.jasig.portlet.announcements.model.UserRoles;
+import org.jasig.portlet.announcements.model.*;
 import org.jasig.portlet.announcements.mvc.IViewNameSelector;
-import org.jasig.portlet.announcements.service.IAnnouncementService;
-import org.jasig.portlet.announcements.service.ITopicSubscriptionService;
-import org.jasig.portlet.announcements.service.UserIdService;
-import org.jasig.portlet.announcements.service.UserPermissionChecker;
-import org.jasig.portlet.announcements.service.UserPermissionCheckerFactory;
-import org.jasig.portlet.notice.NotificationCategory;
-import org.jasig.portlet.notice.NotificationEntry;
-import org.jasig.portlet.notice.NotificationQuery;
-import org.jasig.portlet.notice.NotificationResponse;
-import org.jasig.portlet.notice.NotificationResult;
-import org.springframework.beans.factory.BeanCreationException;
-import org.springframework.beans.factory.InitializingBean;
+import org.jasig.portlet.announcements.service.*;
+import org.jasig.portlet.notice.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.CacheManager;
 import org.springframework.cache.ehcache.EhCacheCacheManager;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -62,6 +35,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.portlet.bind.annotation.EventMapping;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
+
+import javax.portlet.*;
+import javax.xml.namespace.QName;
+import java.util.*;
 
 /** @author eolsson */
 @Controller
@@ -105,7 +82,7 @@ public class AnnouncementsViewController {
 
   @Autowired private final IAnnouncementService announcementService = null;
 
-  @Autowired private EhCacheCacheManager cm = null;
+  @Autowired private CacheManager cm = null;
 
   @Autowired(required = true)
   private IViewNameSelector viewNameSelector;
@@ -114,7 +91,7 @@ public class AnnouncementsViewController {
 
   @Autowired private UserIdService userIdService;
 
-  private final Logger logger = Logger.getLogger(getClass());
+  private final Logger logger = LoggerFactory.getLogger(getClass());
 
   /**
    * Main method of this display controller. Calculates which topics should be shown to this user

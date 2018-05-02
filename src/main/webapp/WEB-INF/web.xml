@@ -32,24 +32,19 @@
     </context-param>
 
     <context-param>
-        <param-name>contextConfigLocation</param-name>
+        <param-name>contextClass</param-name>
         <param-value>
-            classpath:/context/applicationContext.xml,
-            classpath:/context/databaseContext.xml
+            org.springframework.web.context.support.AnnotationConfigWebApplicationContext
         </param-value>
     </context-param>
 
     <context-param>
-        <param-name>log4jConfigLocation</param-name>
-        <param-value>/WEB-INF/classes/log4j.properties</param-value>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>org.jasig.portlet.announcements.AnnouncementsApplication</param-value>
     </context-param>
 
     <listener>
         <listener-class>org.springframework.web.util.WebAppRootListener</listener-class>
-    </listener>
-
-    <listener>
-        <listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
     </listener>
 
     <listener>
@@ -66,8 +61,12 @@
         <servlet-name>spring</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
         <init-param>
+            <param-name>contextClass</param-name>
+            <param-value>org.springframework.web.context.support.AnnotationConfigWebApplicationContext</param-value>
+        </init-param>
+        <init-param>
             <param-name>contextConfigLocation</param-name>
-            <param-value>classpath:/context/servlet/spring-servlet.xml</param-value>
+            <param-value>org.jasig.portlet.announcements.mvc.config.WebMvcConfig</param-value>
         </init-param>
     </servlet>
 

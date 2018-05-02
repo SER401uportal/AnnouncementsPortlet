@@ -18,18 +18,6 @@
  */
 package org.jasig.portlet.announcements.service;
 
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
-import javax.annotation.PostConstruct;
-import javax.servlet.ServletContext;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jasig.portlet.announcements.model.Role;
@@ -39,6 +27,15 @@ import org.springframework.web.context.ServletContextAware;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
+
+import javax.annotation.PostConstruct;
+import javax.servlet.ServletContext;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.*;
 
 /**
  * This class attempts to read the portlet.xml file to determine what groups should be available to
@@ -61,7 +58,7 @@ public class PortletXMLGroupService implements ServletContextAware, IGroupServic
 
     if (doc != null) {
       String roleNameCandidate;
-      roles = new ArrayList<String>();
+      roles = new ArrayList<>();
 
       // Find all the <security-role-ref> elements in the file
       NodeList roleSections = doc.getElementsByTagName("security-role-ref");

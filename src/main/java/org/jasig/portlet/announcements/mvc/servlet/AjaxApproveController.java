@@ -18,24 +18,24 @@
  */
 package org.jasig.portlet.announcements.mvc.servlet;
 
-import java.util.Date;
-
-import javax.portlet.PortletException;
-import javax.servlet.http.HttpServletRequest;
-
 import org.jasig.portlet.announcements.model.Announcement;
 import org.jasig.portlet.announcements.service.IAnnouncementService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.ehcache.EhCacheCacheManager;
+import org.springframework.cache.CacheManager;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.portlet.PortletException;
+import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 
 /**
  * Responsible for receiving and processing the publish/unpublish messages sent from the Admin
  * portlet via AJaX.
  */
 @Controller("ajaxApproveController")
+@RequestMapping("ajaxApprove")
 public class AjaxApproveController {
 
     private static final int STATUS_SCHEDULED = 0;
@@ -45,7 +45,7 @@ public class AjaxApproveController {
 
     private IAnnouncementService announcementService;
 
-    private EhCacheCacheManager cacheManager = null;
+    private CacheManager cacheManager = null;
 
     @Autowired
     public void setAnnouncementService(IAnnouncementService announcementService) {
@@ -53,7 +53,7 @@ public class AjaxApproveController {
     }
 
     @Autowired
-    public void setCacheManager(EhCacheCacheManager cacheManager) {
+    public void setCacheManager(CacheManager cacheManager) {
         this.cacheManager = cacheManager;
     }
 

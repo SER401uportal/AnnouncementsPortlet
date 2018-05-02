@@ -18,15 +18,6 @@
  */
 package org.jasig.portlet.announcements.service;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
-import javax.portlet.PortletException;
-import javax.portlet.PortletPreferences;
-import javax.portlet.PortletRequest;
-import javax.portlet.RenderRequest;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jasig.portlet.announcements.model.AnnouncementFilterType;
@@ -34,6 +25,16 @@ import org.jasig.portlet.announcements.model.Topic;
 import org.jasig.portlet.announcements.model.TopicSubscription;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
+import javax.portlet.PortletException;
+import javax.portlet.PortletPreferences;
+import javax.portlet.PortletRequest;
+import javax.portlet.RenderRequest;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /** @author Erik A. Olsson (eolsson@uci.edu) */
 @Service
@@ -86,7 +87,7 @@ public class UserConfiguredTopicSubscriptionService implements ITopicSubscriptio
   }
 
   public List<TopicSubscription> getTopicSubscription(
-      PortletRequest request, boolean includeEmergency) throws PortletException {
+          PortletRequest request, boolean includeEmergency) throws PortletException {
 
     List<TopicSubscription> subscriptions = new ArrayList<>();
     List<TopicSubscription> subSaved = null;

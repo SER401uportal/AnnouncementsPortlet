@@ -18,11 +18,13 @@
  */
 package org.jasig.portlet.announcements.model;
 
+import org.jasig.portlet.announcements.xml.Namespaces;
+
+import javax.persistence.*;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
-import org.jasig.portlet.announcements.xml.Namespaces;
 
 /**
  * @author Erik A. Olsson (eolsson@uci.edu)
@@ -30,11 +32,23 @@ import org.jasig.portlet.announcements.xml.Namespaces;
  */
 @XmlType(namespace = Namespaces.TOPIC_SUBSCRIPTION_NAMESPACE)
 @XmlRootElement(name = "topicSubscription")
+@Entity
+@Table(name = "SUBSCRIPTION")
 public class TopicSubscription {
 
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "TOPIC_ID")
   private Topic topic;
+
+  @Column(name = "SUBSCRIBED")
   private Boolean subscribed;
+
+  @Column(name = "OWNER_ID")
   private String owner;
+
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  @Column(name = "SUB_ID")
   private Long id;
 
   public TopicSubscription() {}

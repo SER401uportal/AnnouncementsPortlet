@@ -18,12 +18,14 @@
  */
 package org.jasig.portlet.announcements.service;
 
-import javax.portlet.ActionRequest;
-import javax.portlet.PortletPreferences;
-import javax.portlet.PortletRequest;
 import org.jasig.portlet.announcements.model.AnnouncementConfiguration;
 import org.jasig.portlet.announcements.model.AnnouncementFilterType;
 import org.springframework.stereotype.Service;
+
+import javax.portlet.ActionRequest;
+import javax.portlet.PortletPreferences;
+import javax.portlet.PortletRequest;
+
 
 /** @author Chris Waymire (chris@waymire.net) */
 @Service

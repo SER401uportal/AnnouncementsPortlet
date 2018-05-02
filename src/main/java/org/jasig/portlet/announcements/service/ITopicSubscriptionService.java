@@ -18,11 +18,12 @@
  */
 package org.jasig.portlet.announcements.service;
 
-import java.util.List;
+import org.jasig.portlet.announcements.model.TopicSubscription;
+
 import javax.portlet.PortletException;
 import javax.portlet.PortletRequest;
 import javax.portlet.RenderRequest;
-import org.jasig.portlet.announcements.model.TopicSubscription;
+import java.util.List;
 
 /**
  * Implementations of this interface tell the controller(s) which topic(s) will be displayed in the

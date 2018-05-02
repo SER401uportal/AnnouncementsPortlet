@@ -18,31 +18,27 @@
  */
 package org.jasig.portlet.announcements.mvc.portlet.admin;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
-import javax.portlet.RenderRequest;
-import org.apache.log4j.Logger;
 import org.jasig.portlet.announcements.model.Announcement;
 import org.jasig.portlet.announcements.model.Topic;
 import org.jasig.portlet.announcements.mvc.IViewNameSelector;
 import org.jasig.portlet.announcements.service.IAnnouncementService;
 import org.jasig.portlet.announcements.service.UserPermissionChecker;
 import org.jasig.portlet.announcements.service.UserPermissionCheckerFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.portlet.RenderRequest;
+import java.util.*;
+
 @Controller
 public class ShowHistoryController {
 
-  private static final org.apache.log4j.Logger logger =
-      Logger.getLogger(ShowHistoryController.class);
+  private static final Logger logger = LoggerFactory.getLogger(ShowHistoryController.class);
 
   @Autowired private IAnnouncementService announcementService;
 

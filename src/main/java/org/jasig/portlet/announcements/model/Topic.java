@@ -18,18 +18,13 @@
  */
 package org.jasig.portlet.announcements.model;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.TreeSet;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElementWrapper;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
-import javax.xml.bind.annotation.XmlType;
-import org.apache.log4j.Logger;
 import org.jasig.portlet.announcements.xml.Namespaces;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import javax.persistence.*;
+import javax.xml.bind.annotation.*;
+import java.util.*;
 
 /**
  * @author Erik A. Olsson (eolsson@uci.edu)
@@ -37,6 +32,8 @@ import org.jasig.portlet.announcements.xml.Namespaces;
  */
 @XmlType(namespace = Namespaces.TOPIC_NAMESPACE)
 @XmlRootElement(name = "topic")
+@Entity
+@Table(name = "TOPIC")
 public class Topic {
   /* Announcements for this topic are... */
   public static final int PUSHED_FORCED =
@@ -46,30 +43,72 @@ public class Topic {
       3; /* ...Not pushed to anybody, but target audience members can subscribe (pull) if they want to */
   public static final int EMERGENCY = 4; /* A topic that supercedes all other topics */
 
-  private static final org.apache.log4j.Logger logger = Logger.getLogger(Topic.class);
+  private static final Logger logger = LoggerFactory.getLogger(Topic.class);
 
+  @OneToMany(
+          mappedBy = "parent",
+          cascade = CascadeType.ALL
+  )
   private Set<Announcement> announcements;
 
+  @OneToMany(
+          mappedBy = "topic",
+          cascade = CascadeType.ALL
+  )
   private Set<TopicSubscription> subscriptions;
 
+  @ElementCollection
+  @CollectionTable(name = "ADMINS",
+          joinColumns = {@JoinColumn(name = "PARENT_ID")})
+  @Column(name = "ADMIN")
   private Set<String> admins;
+
+  @ElementCollection
+  @CollectionTable(name = "MODERATORS",
+          joinColumns = {@JoinColumn(name = "PARENT_ID")})
+  @Column(name = "MODERATOR")
   private Set<String> moderators;
+
+  @ElementCollection
+  @CollectionTable(name = "AUTHORS",
+          joinColumns = {@JoinColumn(name = "PARENT_ID")})
+  @Column(name = "AUTHOR")
   private Set<String> authors;
+
+  @ElementCollection
+  @CollectionTable(name = "AUDIENCE",
+          joinColumns = {@JoinColumn(name = "PARENT_ID")})
+  @Column(name = "AUDIENCE_MEMBER")
   private Set<String> audience;
 
+  @Column(name = "CREATED_BY")
   private String creator;
+
+  @Column(name = "TITLE")
+  @Lob
   private String title;
+
+  @Column(name = "DESCRP")
+  @Lob
   private String description;
+
+  @Column(name = "ALLOW_RSS")
   private boolean allowRss;
+
+  @Column(name = "SUB_METHOD")
   private int subscriptionMethod;
+
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  @Column(name = "TOPIC_ID")
   private Long id;
 
   public Topic() {
-    subscriptions = new HashSet<TopicSubscription>();
-    admins = new TreeSet<String>();
-    moderators = new TreeSet<String>();
-    authors = new TreeSet<String>();
-    audience = new TreeSet<String>();
+    subscriptions = new HashSet<>();
+    admins = new TreeSet<>();
+    moderators = new TreeSet<>();
+    authors = new TreeSet<>();
+    audience = new TreeSet<>();
   }
 
   public Set<String> getGroup(String key) {

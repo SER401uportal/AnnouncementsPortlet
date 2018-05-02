@@ -18,11 +18,13 @@
  */
 package org.jasig.portlet.announcements.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * @author Erik A. Olsson (eolsson@uci.edu)
@@ -39,7 +41,7 @@ public class AnnouncementCleanupThread extends Thread {
   private long maxCheckIntervalMillis = 43200000L; // 12 hours
   private boolean keepRunning;
 
-  private static Logger log = Logger.getLogger(AnnouncementCleanupThread.class);
+  private static Logger log = LoggerFactory.getLogger(AnnouncementCleanupThread.class);
 
   public AnnouncementCleanupThread() {
     setDaemon(true);

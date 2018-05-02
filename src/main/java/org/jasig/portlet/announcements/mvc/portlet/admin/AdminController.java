@@ -18,23 +18,28 @@
  */
 package org.jasig.portlet.announcements.mvc.portlet.admin;
 
-import java.util.ArrayList;
-import java.util.List;
-import javax.portlet.RenderRequest;
 import org.jasig.portlet.announcements.model.Announcement;
 import org.jasig.portlet.announcements.model.Topic;
 import org.jasig.portlet.announcements.service.IAnnouncementService;
 import org.jasig.portlet.announcements.service.UserPermissionChecker;
 import org.jasig.portlet.announcements.service.UserPermissionCheckerFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.portlet.RenderRequest;
+import java.util.ArrayList;
+import java.util.List;
+
 /** @author eolsson */
 @Controller
 @RequestMapping("VIEW")
 public class AdminController {
+
+  private static final Logger log = LoggerFactory.getLogger(AdminController.class);
 
   @Autowired private IAnnouncementService announcementService;
 

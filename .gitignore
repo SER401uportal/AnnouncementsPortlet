@@ -1,18 +1,27 @@
+.gradle
+/build/
+!gradle/wrapper/gradle-wrapper.jar
+
+### STS ###
+.apt_generated
 .classpath
-!/.project
+.factorypath
 .project
 .settings
-target
-*.ipr
-*.iml
-*.iws
-.idea/
-.DS_Store
-.idea
-overlays/
-pom.xml.versionsBackup
-/bin
+.springBeans
+.sts4-cache
 
-/node_modules
-Gruntfile.js
-package.json
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+/out/
+
+### NetBeans ###
+/nbproject/private/
+/build/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
